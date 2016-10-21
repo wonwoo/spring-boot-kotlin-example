@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Ooops, ' + ${error}">Ooops, page not found</title>
+    <style type="text/css">
+        .wrapper {
+            width: 100%;
+            text-align: center;
+        }
+        .big {
+            font-size: 100%
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="big">
+        <h1>¯\_(ツ)_/¯</h1>
+        <br />
+        <h2 th:text="${error}"></h2>
+    </div>
+</div>
+</body>
+</html>

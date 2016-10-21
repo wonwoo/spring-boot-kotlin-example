@@ -22,7 +22,6 @@ open class WebSecurityConfig constructor(val userDetailsService : UserDetailsSer
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/message")
                 .permitAll()
                 .and()
                 .logout()
