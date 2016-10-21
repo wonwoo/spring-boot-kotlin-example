@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+</head>
+<body>
+<div th:text="'username : ' + ${account.name}"></div>
+
+<form role="form"  th:action="@{/message}" method="post">
+    <fieldset>
+        <div class="form-group">
+            <input class="form-control" value="" placeholder="message" name="message" type="text" autofocus>
+        </div>
+        <div><input type="submit" value="Sign In"/></div>
+    </fieldset>
+</form>
+<table>
+    <tr th:each="message : ${messages}">
+        <td th:text="${message.message}">
+
+        </td>
+        <td th:text="${message.account.name}">
+
+        </td>
+    </tr>
+</table>
+</body>
+</html>
