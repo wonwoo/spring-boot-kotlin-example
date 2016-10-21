@@ -5,10 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @Controller
@@ -32,6 +29,12 @@ open class MessageController constructor(val messageService: MessageService) {
             return "message"
         }
         messageService.save(messageForm, account)
+        return "redirect:/message"
+    }
+
+    @GetMapping("/delete/{id}")
+    open fun delete(@PathVariable id:Long) : String{
+        messageService.delete(id)
         return "redirect:/message"
     }
 }

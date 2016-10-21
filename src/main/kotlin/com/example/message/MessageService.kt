@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 open class MessageService constructor(val messageRepository: MessageRepository){
 
+    @Transactional(readOnly = true)
     open fun findAll() : List<Message> {
         return messageRepository.findAll()
     }
@@ -16,7 +17,12 @@ open class MessageService constructor(val messageRepository: MessageRepository){
         return messageRepository.save(Message(messageForm.message, account))
     }
 
+    @Transactional(readOnly = true)
     open fun findByAccount(account: Account?): List<Message> {
         return messageRepository.findByAccount(account)
+    }
+
+    open fun delete(id: Long) {
+        messageRepository.delete(id)
     }
 }
