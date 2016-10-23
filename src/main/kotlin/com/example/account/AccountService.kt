@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class AccountService constructor(val accountRepository: AccountRepository) {
+open class AccountService(val accountRepository: AccountRepository) {
 
     @Transactional(readOnly = true)
     open fun findAll(): MutableList<Account> {

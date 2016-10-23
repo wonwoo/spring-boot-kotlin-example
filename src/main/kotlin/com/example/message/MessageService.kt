@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class MessageService constructor(val messageRepository: MessageRepository){
+open class MessageService(val messageRepository: MessageRepository){
 
     @Transactional(readOnly = true)
     open fun findAll() : List<Message> {

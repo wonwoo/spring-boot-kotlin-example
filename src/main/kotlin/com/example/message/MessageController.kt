@@ -10,7 +10,7 @@ import javax.validation.Valid
 
 @Controller
 @RequestMapping("/message")
-open class MessageController constructor(val messageService: MessageService) {
+open class MessageController(val messageService: MessageService) {
 
     @ModelAttribute("messages")
     open fun messages(@AuthenticationPrincipal account: Account?) : List<Message> = messageService.findAll()
