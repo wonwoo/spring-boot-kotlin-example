@@ -12,7 +12,7 @@ open class AccountService(val accountRepository: AccountRepository) {
         return accountRepository.findAll()
     }
 
-    open fun save(accountForm: AccountForm) {
-        accountRepository.save(Account(accountForm.name))
+    open fun save(accountForm: AccountForm): Account {
+        return accountRepository.save(Account(accountForm.name))
     }
 }
