@@ -1,4 +1,4 @@
-# spring boot koilin 
+# spring boot kotlin 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://spring-boot-kotlin-example.herokuapp.com)
 
