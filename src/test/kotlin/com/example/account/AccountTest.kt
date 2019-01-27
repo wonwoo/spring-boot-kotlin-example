@@ -18,10 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 open class AccountTest {
     @Autowired
-    lateinit var entityManager: TestEntityManager
+    private lateinit var entityManager: TestEntityManager
 
     @Autowired
-    lateinit var accountRepository: AccountRepository
+    private lateinit var accountRepository: AccountRepository
 
     @Test
     open fun newAccountHasNameAndPassword() {

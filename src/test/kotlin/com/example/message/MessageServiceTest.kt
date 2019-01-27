@@ -17,9 +17,9 @@ import org.mockito.junit.MockitoJUnitRunner
 class MessageServiceTest {
 
     @Mock
-    lateinit var messageRepository: MessageRepository
+    private lateinit var messageRepository: MessageRepository
 
-    lateinit var messageService : MessageService
+    private lateinit var messageService: MessageService
 
     val account = Account("wonwoo", "pw")
 

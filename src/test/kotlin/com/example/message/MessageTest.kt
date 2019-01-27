@@ -20,10 +20,10 @@ import org.springframework.test.context.junit4.SpringRunner
 open class MessageTest {
 
     @Autowired
-    lateinit var entityManager: TestEntityManager
+    private lateinit var entityManager: TestEntityManager
 
     @Autowired
-    lateinit var messageRepository: MessageRepository
+    private lateinit var messageRepository: MessageRepository
 
     @Test
     open fun newMessageHas() {

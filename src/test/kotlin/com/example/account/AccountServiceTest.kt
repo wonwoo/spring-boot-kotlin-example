@@ -16,9 +16,9 @@ import org.mockito.junit.MockitoJUnitRunner
 class AccountServiceTest {
 
     @Mock
-    lateinit var accountRepository: AccountRepository
+    private lateinit var accountRepository: AccountRepository
 
-    lateinit var accountService : AccountService
+    private lateinit var accountService : AccountService
 
     @Before
     fun setup(){
