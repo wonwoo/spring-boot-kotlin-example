@@ -12,10 +12,10 @@ import javax.validation.Valid
 class MessageController(private val messageService: MessageService) {
 
     @ModelAttribute("messages")
-    fun messages() : List<Message> = messageService.findAll()
+    fun messages(): List<Message> = messageService.findAll()
 
     @ModelAttribute
-    fun account(@AuthenticationPrincipal account: Account?) : Account? = account
+    fun account(@AuthenticationPrincipal account: Account?): Account? = account
 
     @GetMapping
     fun findAll(): String {
@@ -23,8 +23,9 @@ class MessageController(private val messageService: MessageService) {
     }
 
     @PostMapping
-    fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult, @AuthenticationPrincipal account: Account): String {
-        if(bindingResult.hasErrors()){
+    fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult,
+             @AuthenticationPrincipal account: Account): String {
+        if (bindingResult.hasErrors()) {
             return "message"
         }
         messageService.save(messageForm, account)
@@ -32,7 +33,7 @@ class MessageController(private val messageService: MessageService) {
     }
 
     @GetMapping("/delete/{id}")
-    fun delete(@PathVariable id:Long) : String{
+    fun delete(@PathVariable id: Long): String {
         messageService.delete(id)
         return "redirect:/message"
     }

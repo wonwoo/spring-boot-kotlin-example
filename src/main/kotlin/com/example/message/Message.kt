@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne
 
 @Entity
 data class Message(
-        val message: String ,
+        val message: String,
 
         @ManyToOne(fetch = javax.persistence.FetchType.LAZY)
         val account: Account,
