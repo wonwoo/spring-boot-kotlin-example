@@ -1,16 +1,15 @@
 package com.example.message
 
 import com.example.account.Account
-import org.junit.Assert.*
+import org.hamcrest.CoreMatchers.`is`
+import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.test.context.junit4.SpringRunner
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.collection.*
 
 /**
  * Created by wonwoo on 2016. 10. 27..
@@ -50,7 +49,7 @@ open class MessageTest {
         val account = this.entityManager.persist(
                 Account("wonwoo", "passwd"))
         this.messageRepository.save(Message("test message", account))
-        val findMessage = this.messageRepository.findOne(7)
-        assertThat(findMessage.message, `is`("test message")) // init data +
+        val findMessage = this.messageRepository.findById(7)
+        assertThat(findMessage.get().message, `is`("test message")) // init data +
     }
 }

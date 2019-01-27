@@ -1,17 +1,14 @@
 package com.example.message
 
 import com.example.account.Account
-import org.junit.Test
-
-import org.junit.Assert.*
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.runners.MockitoJUnitRunner
-import org.junit.Assert.*
-import org.junit.Before
-import org.mockito.BDDMockito.*
 import org.hamcrest.CoreMatchers.`is`
+import org.junit.Assert.assertThat
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.BDDMockito.*
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by wonwoo on 2016. 10. 27..
@@ -24,13 +21,11 @@ class MessageServiceTest {
 
     lateinit var messageService : MessageService
 
-    val account = Account()
+    val account = Account("wonwoo", "pw")
 
     @Before
     fun setup() {
         messageService = MessageService(messageRepository)
-        account.id = 1
-        account.name = "wonwoo"
     }
 
     @Test
@@ -53,7 +48,7 @@ class MessageServiceTest {
 
     @Test
     fun delete() {
-        doNothing().`when`(messageRepository).delete(anyLong())
+        doNothing().`when`(messageRepository).deleteById(anyLong())
         messageService.delete(1)
     }
 }

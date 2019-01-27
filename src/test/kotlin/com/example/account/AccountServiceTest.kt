@@ -1,14 +1,13 @@
 package com.example.account
 
-import org.junit.Test
-
-import org.junit.Assert.*
-import org.junit.Before
-import org.mockito.Mock
-import org.mockito.BDDMockito.*
 import org.hamcrest.CoreMatchers.`is`
+import org.junit.Assert.assertThat
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
+import org.mockito.BDDMockito.given
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by wonwoo on 2016. 10. 27..
@@ -38,12 +37,4 @@ class AccountServiceTest {
         assertThat(findAccounts[1].passwd, `is`("pass"))
     }
 
-    @Test
-    fun save() {
-        val account = Account("wonwoo")
-        val accountForm = AccountForm("wonwoo")
-        given(accountRepository.save(account)).willReturn(account)
-        val saveAccount = accountService.save(accountForm)
-        assertThat(saveAccount.name, `is`("wonwoo"))
-    }
 }

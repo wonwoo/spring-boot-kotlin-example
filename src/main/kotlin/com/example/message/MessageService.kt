@@ -6,14 +6,14 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class MessageService(val messageRepository: MessageRepository){
+open class MessageService(private val messageRepository: MessageRepository){
 
     @Transactional(readOnly = true)
     open fun findAll() : List<Message> {
         return messageRepository.findAll()
     }
 
-    open fun save(messageForm: MessageForm, account: Account?) : Message {
+    open fun save(messageForm: MessageForm, account: Account) : Message {
         return messageRepository.save(Message(messageForm.message, account))
     }
 
@@ -23,6 +23,6 @@ open class MessageService(val messageRepository: MessageRepository){
     }
 
     open fun delete(id: Long) {
-        messageRepository.delete(id)
+        messageRepository.deleteById(id)
     }
 }

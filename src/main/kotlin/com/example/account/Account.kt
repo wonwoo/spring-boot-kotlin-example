@@ -1,31 +1,29 @@
 package com.example.account
 
-import com.example.NULL
 import com.example.message.Message
-import org.hibernate.validator.constraints.NotEmpty
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.io.Serializable
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.OneToMany
 
 @Entity
-@Access(AccessType.FIELD)
 data class Account(
 
-        @get:NotEmpty
-        var name: String? = NULL,
+        val name: String,
 
-        @get:NotEmpty
-        var passwd: String? = NULL,
+        val passwd: String,
 
         @OneToMany(mappedBy = "account")
-        var messages: List<Message>? = NULL,
+        val messages: List<Message>? = null,
 
         @Id @GeneratedValue
-        var id: Long? = NULL
+        val id: Long? = null
 ) : Serializable, UserDetails {
-    override fun getUsername(): String = name!!
+    override fun getUsername(): String = name
 
     override fun isCredentialsNonExpired(): Boolean = true
 
@@ -33,7 +31,7 @@ data class Account(
 
     override fun isAccountNonLocked(): Boolean = true
 
-    fun authorities(account: Account): MutableCollection<out GrantedAuthority>? {
+    private fun authorities(account: Account): MutableCollection<out GrantedAuthority>? {
         val authorities = mutableListOf<GrantedAuthority>()
         authorities.add(SimpleGrantedAuthority("ROLE_USER"))
         if (account.name.equals("wonwoo")) authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
@@ -43,5 +41,5 @@ data class Account(
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>? = authorities(this)
     override fun isEnabled(): Boolean = true
 
-    override fun getPassword(): String = passwd!!
+    override fun getPassword(): String = passwd
 }

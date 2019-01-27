@@ -1,16 +1,17 @@
 package com.example.message
 
-import com.example.NULL
 import com.example.account.Account
-import org.hibernate.validator.constraints.NotEmpty
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.ManyToOne
 
 @Entity
 data class Message(
-        @get:NotEmpty var message: String? = NULL,
+        val message: String ,
 
         @ManyToOne(fetch = javax.persistence.FetchType.LAZY)
-        var account: Account? = NULL,
+        val account: Account,
 
-        @Id @GeneratedValue var id: Long? = NULL
+        @Id @GeneratedValue var id: Long? = null
 )
