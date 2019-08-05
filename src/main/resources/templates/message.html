@@ -38,6 +38,7 @@
         <tr>
             <th>Message</th>
             <th style="text-align: center;">User</th>
+            <th style="text-align: center;">Date</th>
             <th style="text-align: center;">#</th>
         </tr>
         </thead>
@@ -45,6 +46,7 @@
         <tr th:each="message : ${messages}">
             <th th:text="${message.message}"></th>
             <td th:text="${message.account.name}">Mark</td>
+            <td th:text="${message.regDate}"></td>
             <td><a class="btn btn-default glyphicon" th:href="@{'/message/delete/' + ${message.id}}">Delete</a></td>
         </tr>
         </tbody>

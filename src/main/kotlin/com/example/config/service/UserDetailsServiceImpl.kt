@@ -1,6 +1,5 @@
 package com.example.config.service
 
-
 import com.example.account.AccountRepository
 import com.example.account.UserNotFoundException
 import org.springframework.security.core.userdetails.UserDetails
@@ -9,8 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserDetailsServiceImpl(private val accountRepository: AccountRepository) : UserDetailsService {
-    override fun loadUserByUsername(username: String): UserDetails {
-        val account = accountRepository.findByname(username)
-        return account.orElseThrow { UserNotFoundException("not found user name : $username ") }
-    }
+
+    override fun loadUserByUsername(username: String): UserDetails = accountRepository.findByname(username)
+        ?: throw UserNotFoundException("not found user name : $username ")
 }

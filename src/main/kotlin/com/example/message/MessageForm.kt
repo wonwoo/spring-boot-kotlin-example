@@ -1,5 +1,5 @@
 package com.example.message
 
-import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotBlank
 
-data class MessageForm(@get:NotEmpty val message: String)
+data class MessageForm(@get:NotBlank val message: String)

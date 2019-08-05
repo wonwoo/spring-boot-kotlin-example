@@ -10,18 +10,28 @@ import org.springframework.boot.runApplication
 import java.util.stream.Stream
 
 @SpringBootApplication
-open class SpringBootKotlinExampleApplication(private val accountRepository: AccountRepository,
-                                              private val messageRepository: MessageRepository) : CommandLineRunner {
+class SpringBootKotlinExampleApplication(private val accountRepository: AccountRepository,
+                                         private val messageRepository: MessageRepository) : CommandLineRunner {
     override fun run(vararg p0: String?) {
-        accountRepository.deleteAll()
-        Stream.of("wonwoo,{noop}123", "user,{noop}456")
-                .map { account -> account.split(",") }
-                .forEach { name ->
-                    val save = Account(name[0], name[1], null)
-                    accountRepository.save(save)
-                    Stream.of("hi", "wonwoo", "hello")
-                            .forEach { message -> messageRepository.save(Message(message, save)) }
-                }
+
+        listOf("wonwoo,{noop}123", "user,{noop}456")
+
+            .map { it.split(",") }
+            .map {
+
+                val save = Account(it[0], it[1])
+
+                accountRepository.save(save)
+
+            }.forEach {
+
+                listOf("hi", "wonwoo", "hello")
+
+                    .forEach { message ->
+
+                        messageRepository.save(Message(message, it))
+                    }
+            }
     }
 }
 

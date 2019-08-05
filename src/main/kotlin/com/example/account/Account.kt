@@ -13,16 +13,18 @@ import javax.persistence.OneToMany
 @Entity
 data class Account(
 
-        val name: String,
+    val name: String,
 
-        val passwd: String,
+    val passwd: String,
 
-        @OneToMany(mappedBy = "account")
-        val messages: List<Message>? = null,
+    @OneToMany(mappedBy = "account")
+    val messages: List<Message>? = null,
 
-        @Id @GeneratedValue
-        val id: Long? = null
+    @Id @GeneratedValue
+    val id: Long? = null
+
 ) : Serializable, UserDetails {
+
     override fun getUsername(): String = name
 
     override fun isCredentialsNonExpired(): Boolean = true
@@ -31,14 +33,22 @@ data class Account(
 
     override fun isAccountNonLocked(): Boolean = true
 
-    private fun authorities(account: Account): MutableCollection<out GrantedAuthority>? {
-        val authorities = mutableListOf<GrantedAuthority>()
-        authorities.add(SimpleGrantedAuthority("ROLE_USER"))
-        if (account.name.equals("wonwoo")) authorities.add(SimpleGrantedAuthority("ROLE_ADMIN"))
-        return authorities
+    private fun authorities(account: Account): Collection<GrantedAuthority> {
+
+        val authorities = mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
+
+        return authorities.apply {
+
+            if (account.name == "wonwoo") {
+
+                this.add(SimpleGrantedAuthority("ROLE_ADMIN"))
+
+            }
+        }
     }
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority>? = authorities(this)
+    override fun getAuthorities(): Collection<GrantedAuthority> = authorities(this)
+
     override fun isEnabled(): Boolean = true
 
     override fun getPassword(): String = passwd

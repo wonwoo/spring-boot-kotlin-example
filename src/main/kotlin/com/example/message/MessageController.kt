@@ -1,6 +1,7 @@
 package com.example.message
 
 import com.example.account.Account
+import com.example.formatDateAgo
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
@@ -12,29 +13,50 @@ import javax.validation.Valid
 class MessageController(private val messageService: MessageService) {
 
     @ModelAttribute("messages")
-    fun messages(): List<Message> = messageService.findAll()
+    fun messages(): List<MessageDto> = messageService.findAll().map { it.toDto() }
 
     @ModelAttribute
     fun account(@AuthenticationPrincipal account: Account?): Account? = account
 
     @GetMapping
-    fun findAll(): String {
-        return "message"
-    }
+    fun findAll() = "message"
 
     @PostMapping
-    fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult,
-             @AuthenticationPrincipal account: Account): String {
+    fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult, account: Account): String {
+
         if (bindingResult.hasErrors()) {
+
             return "message"
+
         }
-        messageService.save(messageForm, account)
+
+        messageService.save(messageForm.toMessage(account))
+
         return "redirect:/message"
+
     }
 
     @GetMapping("/delete/{id}")
     fun delete(@PathVariable id: Long): String {
+
         messageService.delete(id)
+
         return "redirect:/message"
+
     }
 }
+
+fun MessageForm.toMessage(account: Account) = Message(this.message, account)
+
+fun Message.toDto() = MessageDto(this.message, this.account, this.regDate.formatDateAgo(), id)
+
+data class MessageDto(
+
+    val message: String,
+
+    val account: Account,
+
+    val regDate: String,
+
+    val id: Long?
+)

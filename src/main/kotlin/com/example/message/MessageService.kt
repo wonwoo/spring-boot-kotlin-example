@@ -6,23 +6,15 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-open class MessageService(private val messageRepository: MessageRepository) {
+class MessageService(private val messageRepository: MessageRepository) {
 
     @Transactional(readOnly = true)
-    open fun findAll(): List<Message> {
-        return messageRepository.findAll()
-    }
+    fun findAll(): List<Message> = messageRepository.findAll()
 
-    open fun save(messageForm: MessageForm, account: Account): Message {
-        return messageRepository.save(Message(messageForm.message, account))
-    }
+    fun save(message: Message) = messageRepository.save(message)
 
     @Transactional(readOnly = true)
-    open fun findByAccount(account: Account?): List<Message> {
-        return messageRepository.findByAccount(account)
-    }
+    fun findByAccount(account: Account): List<Message> = messageRepository.findByAccount(account)
 
-    open fun delete(id: Long) {
-        messageRepository.deleteById(id)
-    }
+    fun delete(id: Long) = messageRepository.deleteById(id)
 }

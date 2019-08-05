@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 
 @Configuration
 @EnableWebSecurity
-open class WebSecurityConfig(private val userDetailsService: UserDetailsService) : WebSecurityConfigurerAdapter() {
+class WebSecurityConfig(private val userDetailsService: UserDetailsService) : WebSecurityConfigurerAdapter() {
 
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService)
