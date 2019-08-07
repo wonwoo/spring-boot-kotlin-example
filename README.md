@@ -37,36 +37,37 @@ or
 ```
 
 ## use 
-1. kotlin 1.0.3
-2. Spring Boot 1.4.1 
-3. JPA(hibernate) 5.0.11
+1. kotlin 1.3.41
+2. Spring Boot 2.1.6 
+3. JPA(hibernate) 5.3.10
 4. h2
-5. thymeleaf 3.0.0
-6. Spring Security 4.1.3
+5. thymeleaf 3.0.11
+6. Spring Security 5.1.5
 
 
 ## spring boot koilin sample code
 ### Main sample
 ```kotlin
 @SpringBootApplication
-open class SpringBootKotlinExampleApplication constructor(val accountRepository: AccountRepository, val messageRepository: MessageRepository) : CommandLineRunner{
+class SpringBootKotlinExampleApplication(private val accountRepository: AccountRepository,
+                                         private val messageRepository: MessageRepository) : CommandLineRunner {
   override fun run(vararg p0: String?) {
     //.. some logic  
   }
 }
 
 fun main(args: Array<String>) {
-  SpringApplication.run(SpringBootKotlinExampleApplication::class.java, *args)
+    runApplication<SpringBootKotlinExampleApplication>(*args)
 }
 ```
 ### Service sample
 ```kotlin
 @Service
 @Transactional
-open class MessageService constructor(val messageRepository: MessageRepository){
+class MessageService constructor(val messageRepository: MessageRepository){
 
   @Transactional(readOnly = true)
-  open fun findAll() : List<Message> {
+  fun findAll() : List<Message> {
     return messageRepository.findAll()
   }
   // ... some logic 
