@@ -18,14 +18,14 @@ class WebSecurityConfig(private val userDetailsService: UserDetailsService) : We
 
     override fun configure(http: HttpSecurity) {
         http
-                .authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .and()
-                .logout()
-                .permitAll()
+            .authorizeRequests()
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+            .permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .and()
+            .logout()
+            .permitAll()
     }
 }

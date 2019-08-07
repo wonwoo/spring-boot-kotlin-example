@@ -16,7 +16,7 @@ class MessageController(private val messageService: MessageService) {
     fun messages(): List<MessageDto> = messageService.findAll().map { it.toDto() }
 
     @ModelAttribute
-    fun account(@AuthenticationPrincipal account: Account?): Account? = account
+    fun account(@AuthenticationPrincipal account: Account): Account = account
 
     @GetMapping
     fun findAll() = "message"
