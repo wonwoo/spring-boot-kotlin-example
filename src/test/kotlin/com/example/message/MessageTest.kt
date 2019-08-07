@@ -30,7 +30,7 @@ class MessageTest(@Autowired val entityManager: TestEntityManager,
         this.messageRepository.save(Message("test message", account))
         this.messageRepository.save(Message("ok test kotlin", account))
         val findMessages = this.messageRepository.findAll()
-        assertThat(findMessages).hasSize(8)
+        assertThat(findMessages).hasSize(2)
     }
 
     @Test
