@@ -5,16 +5,16 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 class MessageService(private val messageRepository: MessageRepository) {
 
-    @Transactional(readOnly = true)
     fun findAll(): List<Message> = messageRepository.findAll()
 
+    @Transactional
     fun save(message: Message) = messageRepository.save(message)
 
-    @Transactional(readOnly = true)
     fun findByAccount(account: Account): List<Message> = messageRepository.findByAccount(account)
 
+    @Transactional
     fun delete(id: Long) = messageRepository.deleteById(id)
 }

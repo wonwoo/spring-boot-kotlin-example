@@ -13,12 +13,13 @@ class InitializerData(private val accountRepository: AccountRepository,
                       private val messageRepository: MessageRepository) : ApplicationRunner {
 
     override fun run(args: ApplicationArguments?) {
+
         listOf("wonwoo,{noop}123", "user,{noop}456")
 
             .map { it.split(",") }
             .map {
 
-                val save = Account(it[0], it[1])
+                val save = Account(it.component1(), it.component2())
 
                 accountRepository.save(save)
 
