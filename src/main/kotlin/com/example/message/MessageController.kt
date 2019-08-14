@@ -36,6 +36,7 @@ class MessageController(private val messageService: MessageService) {
 
     }
 
+    //TODO GET -> POST
     @GetMapping("/delete/{id}")
     fun delete(@PathVariable id: Long): String {
 
