@@ -8,20 +8,15 @@ import org.mockito.BDDMockito.doNothing
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
 import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.atLeastOnce
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
+import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 
 inline fun <reified T> any(): T = Mockito.any()
 
@@ -38,14 +33,24 @@ internal class MessageControllerTests(@Autowired private val mockMvc: MockMvc) {
 
         given(messageService.findAll()).willReturn(listOf(Message(id = 1L, message = "test message", account = Account("wonwoo", "foo"))))
 
-        mockMvc.perform(get("/message"))
-            .andExpect(status().isOk)
+        mockMvc.get("/message") {
 
-            .andExpect(model().attributeExists("messages"))
-            .andExpect(view().name("message"))
-            .andExpect(content().string(containsString("test message")))
-            .andDo(print())
+            accept = MediaType.TEXT_HTML
 
+        }.andExpect {
+            status { isOk }
+            model {
+                attributeExists("messages")
+            }
+            view {
+                name("message")
+            }
+            content {
+                string(containsString("test message"))
+            }
+        }.andDo {
+            print()
+        }
     }
 
     @Test
@@ -55,16 +60,21 @@ internal class MessageControllerTests(@Autowired private val mockMvc: MockMvc) {
 
         given(messageService.save(message)).willReturn(message)
 
-        mockMvc.perform(post("/message")
-            .with(csrf())
-            .param("message", "test messsage"))
-            .andDo(print())
-            .andExpect(status().isFound)
+        mockMvc.post("/message") {
+
+            accept = MediaType.TEXT_HTML
+            with(csrf())
+            param("message", "test messsage")
+
+        }.andExpect {
+            status { isFound }
+        }.andDo {
+            print()
+        }
 
         verify(messageService, atLeastOnce()).save(any())
 
     }
-
 
 
     @Test
@@ -72,15 +82,20 @@ internal class MessageControllerTests(@Autowired private val mockMvc: MockMvc) {
 
         doNothing().`when`(messageService).delete(1L)
 
-        mockMvc.perform(get("/message/delete/{id}", 1)
-            .with(csrf()))
-            .andDo(print())
-            .andExpect(status().isFound)
+        mockMvc.get("/message/delete/{id}", 1) {
+
+            accept = MediaType.TEXT_HTML
+            with(csrf())
+
+        }.andExpect {
+            status { isFound }
+        }.andDo {
+            print()
+        }
 
         verify(messageService, atLeastOnce()).delete(1L)
 
     }
 
 }
-
 
