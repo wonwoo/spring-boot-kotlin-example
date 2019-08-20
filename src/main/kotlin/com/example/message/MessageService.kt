@@ -13,7 +13,7 @@ class MessageService(private val messageRepository: MessageRepository) {
     @Transactional
     fun save(message: Message) = messageRepository.save(message)
 
-    fun findByAccount(account: Account): List<Message> = messageRepository.findByAccount(account)
+    fun findByAccount(account: Account) = messageRepository.findByAccount(account)
 
     @Transactional
     fun delete(id: Long) = messageRepository.deleteById(id)

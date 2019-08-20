@@ -13,10 +13,10 @@ import javax.validation.Valid
 class MessageController(private val messageService: MessageService) {
 
     @ModelAttribute("messages")
-    fun messages(): List<MessageDto> = messageService.findAll().map { it.toDto() }
+    fun messages() = messageService.findAll().map { it.toDto() }
 
     @ModelAttribute
-    fun account(@AuthenticationPrincipal account: Account): Account = account
+    fun account(@AuthenticationPrincipal account: Account) = account
 
     @GetMapping
     fun findAll() = "message"

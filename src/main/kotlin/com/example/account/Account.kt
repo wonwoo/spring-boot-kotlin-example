@@ -1,7 +1,6 @@
 package com.example.account
 
 import com.example.message.Message
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.io.Serializable
@@ -25,19 +24,17 @@ data class Account(
 
 ) : Serializable, UserDetails {
 
-    override fun getUsername(): String = name
+    override fun getUsername() = name
 
-    override fun isCredentialsNonExpired(): Boolean = true
+    override fun isCredentialsNonExpired() = true
 
-    override fun isAccountNonExpired(): Boolean = true
+    override fun isAccountNonExpired() = true
 
-    override fun isAccountNonLocked(): Boolean = true
+    override fun isAccountNonLocked() = true
 
-    private fun authorities(account: Account): Collection<GrantedAuthority> {
+    private fun authorities(account: Account) =
 
-        val authorities = mutableListOf(SimpleGrantedAuthority("ROLE_USER"))
-
-        return authorities.apply {
+        mutableListOf(SimpleGrantedAuthority("ROLE_USER")).apply {
 
             if (account.name == "wonwoo") {
 
@@ -45,9 +42,8 @@ data class Account(
 
             }
         }
-    }
 
-    override fun getAuthorities(): Collection<GrantedAuthority> = authorities(this)
+    override fun getAuthorities() = authorities(this)
 
     override fun isEnabled(): Boolean = true
 

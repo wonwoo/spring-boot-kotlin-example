@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne
 
 @Entity
 data class Message(
+
     val message: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -20,4 +21,5 @@ data class Message(
     @Id
     @GeneratedValue
     var id: Long? = null
+
 )
