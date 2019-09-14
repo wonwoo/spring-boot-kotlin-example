@@ -7,7 +7,7 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
 
 @EnableWebFluxSecurity
-class WebSecurityConfig {
+class WebSecurityConfiguration {
 
     @Bean
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
@@ -19,8 +19,6 @@ class WebSecurityConfig {
             }
             .httpBasic()
             .and()
-            .csrf()
-            .disable()
             .formLogin()
             .and()
             .build()
