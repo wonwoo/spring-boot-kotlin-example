@@ -28,12 +28,15 @@ https://spring-boot-kotlin-example.herokuapp.com
 ```
 ### run
 ```sh
+# cd web or webflux
 # mvn spring-boot:run
+
 ```
 or
 ```
+# cd web or webflux
 # mvn install
-# java -jar target/spring-boot-kotlin-example-0.0.1-SNAPSHOT.jar
+# java -jar target/${name}.jar
 ```
 
 ## use 
