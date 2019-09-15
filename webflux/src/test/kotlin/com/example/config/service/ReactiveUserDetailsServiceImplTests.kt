@@ -4,6 +4,7 @@ import com.example.account.Account
 import com.example.account.AccountRepository
 import com.example.account.UserNotFoundException
 import com.example.message.any
+
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -17,10 +18,8 @@ import reactor.test.StepVerifier
 
 
 @ExtendWith(MockitoExtension::class)
-internal class ReactiveUserDetailsServiceImplTests {
+internal class ReactiveUserDetailsServiceImplTests(@Mock private val accountRepository: AccountRepository) {
 
-    @Mock
-    private lateinit var accountRepository: AccountRepository
     private lateinit var reactiveUserDetailsService: ReactiveUserDetailsService
 
     @BeforeEach

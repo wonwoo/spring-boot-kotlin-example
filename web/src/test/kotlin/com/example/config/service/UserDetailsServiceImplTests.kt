@@ -16,10 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 
 
 @ExtendWith(MockitoExtension::class)
-internal class UserDetailsServiceImplTests {
-
-    @Mock
-    private lateinit var accountRepository: AccountRepository
+internal class UserDetailsServiceImplTests(@Mock private val accountRepository: AccountRepository) {
 
     private lateinit var userDetailsService: UserDetailsService
 
