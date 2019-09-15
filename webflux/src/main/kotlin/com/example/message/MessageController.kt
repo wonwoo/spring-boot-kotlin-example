@@ -41,8 +41,7 @@ class MessageController(private val messageService: MessageService) {
 
     }
 
-    //TODO GET -> POST
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     fun delete(@PathVariable id: String): Rendering {
 
         return Rendering.redirectTo("/message")

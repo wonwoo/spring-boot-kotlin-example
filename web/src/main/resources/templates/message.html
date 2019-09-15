@@ -47,10 +47,23 @@
             <th th:text="${message.message}"></th>
             <td th:text="${message.account.name}">Mark</td>
             <td th:text="${message.regDate}"></td>
-            <td><a class="btn btn-default glyphicon" th:href="@{'/message/delete/' + ${message.id}}">Delete</a></td>
+            <td><a class="btn btn-default glyphicon" th:attr="onclick=|delete_message('${message.id}')|">Delete</a></td>
         </tr>
         </tbody>
     </table>
+
+    <form role="form" th:name="delete-form" th:id="delete-form" th:action="@{/}" th:method="post">
+    </form>
+    <script>
+
+      function delete_message(id) {
+        var form = document.getElementById("delete-form");
+        form.action = "/message/delete/" + id;
+        form.method = "post";
+        form.submit();
+      }
+
+    </script>
 </div>
 </body>
 </html>

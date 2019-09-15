@@ -82,7 +82,7 @@ internal class MessageControllerTests(@Autowired private val mockMvc: MockMvc) {
 
         doNothing().`when`(messageService).delete(1L)
 
-        mockMvc.get("/message/delete/{id}", 1) {
+        mockMvc.post("/message/delete/{id}", 1) {
 
             accept = MediaType.TEXT_HTML
             with(csrf())

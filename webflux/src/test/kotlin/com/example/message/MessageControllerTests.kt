@@ -88,7 +88,7 @@ internal class MessageControllerTests(@Autowired private val webTestClient: WebT
         given(messageService.findAll()).willReturn(Flux.just(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))))
 
         webTestClient.mutateWith(csrf())
-            .get()
+            .post()
             .uri("/message/delete/{id}", "foo")
 
             .accept(MediaType.TEXT_HTML)
