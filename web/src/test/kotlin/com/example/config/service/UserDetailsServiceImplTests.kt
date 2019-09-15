@@ -5,7 +5,7 @@ import com.example.account.AccountRepository
 import com.example.account.UserNotFoundException
 import com.example.message.any
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -40,20 +40,17 @@ internal class UserDetailsServiceImplTests(@Mock private val accountRepository: 
     }
 
     @Test
-
     fun `find by username not found test`() {
 
         given(accountRepository.findByname(any()))
             .willReturn(null)
 
-        assertThatThrownBy {
+        assertThatExceptionOfType(UserNotFoundException::class.java)
+            .isThrownBy {
 
-            userDetailsService.loadUserByUsername("wonwoo")
+                userDetailsService.loadUserByUsername("wonwoo")
 
-        }.isInstanceOf(UserNotFoundException::class.java)
-
-            .hasMessage("not found user name : wonwoo")
-
+            }.withMessage("not found user name : wonwoo")
 
     }
 }
