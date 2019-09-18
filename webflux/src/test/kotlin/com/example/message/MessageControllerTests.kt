@@ -2,6 +2,7 @@ package com.example.message
 
 import com.example.MockUser
 import com.example.account.Account
+import com.example.any
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.anyString
@@ -19,8 +20,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-
-inline fun <reified T> any(): T = Mockito.any()
 
 @WebFluxTest(MessageController::class)
 @MockUser

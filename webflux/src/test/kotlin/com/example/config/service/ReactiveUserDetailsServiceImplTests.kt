@@ -3,7 +3,7 @@ package com.example.config.service
 import com.example.account.Account
 import com.example.account.AccountRepository
 import com.example.account.UserNotFoundException
-import com.example.message.any
+import com.example.any
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
