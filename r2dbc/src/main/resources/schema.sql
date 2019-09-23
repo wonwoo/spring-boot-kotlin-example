@@ -1,0 +1,12 @@
+CREATE TABLE ACCOUNT (
+  id         INTEGER IDENTITY PRIMARY KEY,
+  name VARCHAR(30),
+  passwd  VARCHAR(256)
+);
+
+CREATE TABLE MESSAGE (
+  id         INTEGER IDENTITY PRIMARY KEY,
+  message VARCHAR(1024),
+  account_id INTEGER,
+  reg_date  TIMESTAMP
+);
