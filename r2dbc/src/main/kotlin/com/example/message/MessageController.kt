@@ -45,7 +45,8 @@ class MessageController(private val messageService: MessageService, private val 
         }
 
         return Rendering.redirectTo("/message")
-            .modelAttribute("message", messageService.save(messageForm.toMessage(account)))
+            .modelAttribute("message", messageService.save(messageForm.toMessage(account)
+                ?: throw IllegalArgumentException("must not be null!")))
             .build()
 
     }
@@ -61,7 +62,7 @@ class MessageController(private val messageService: MessageService, private val 
     }
 }
 
-fun MessageForm.toMessage(account: Account) = Message(this.message, account.id!!)
+fun MessageForm.toMessage(account: Account) = account.id?.let { Message(this.message, it) }
 
 fun Message.toDto(account: Account) = MessageDto(this.message, account, this.regDate.formatDateAgo(), id)
 
