@@ -1,5 +1,6 @@
 package com.example.message
 
+import com.example.account.AccountRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
@@ -7,9 +8,15 @@ import reactor.core.publisher.Mono
 
 @Service
 @Transactional(readOnly = true)
-class MessageService(private val messageRepository: MessageRepository) {
+class MessageService(private val messageRepository: MessageRepository, private val accountRepository: AccountRepository) {
 
-    fun findAll(): Flux<Message> = messageRepository.findAll()
+    fun findAll(): Flux<MessageDto> = messageRepository.findAll()
+        .flatMap {
+            accountRepository.findById(it.accountId)
+                .map { account ->
+                    it.toDto(account)
+                }
+        }
 
     @Transactional
     fun save(message: Message): Mono<Message> = messageRepository.save(message)

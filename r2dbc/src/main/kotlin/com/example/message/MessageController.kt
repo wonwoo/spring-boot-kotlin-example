@@ -1,8 +1,6 @@
 package com.example.message
 
 import com.example.account.Account
-import com.example.account.AccountRepository
-import com.example.account.AccountService
 import com.example.formatDateAgo
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
@@ -13,21 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.reactive.result.view.Rendering
-import java.time.LocalDateTime
 import javax.validation.Valid
 
 @Controller
 @RequestMapping("/message")
-class MessageController(private val messageService: MessageService, private val accountService: AccountService) {
+class MessageController(private val messageService: MessageService) {
 
     @ModelAttribute("messages")
     fun messages() = messageService.findAll()
-        .flatMap {
-            accountService.findById(it.accountId)
-                .map { account ->
-                    it.toDto(account)
-                }
-        }
 
     @ModelAttribute
     fun account(@AuthenticationPrincipal account: Account) = account
