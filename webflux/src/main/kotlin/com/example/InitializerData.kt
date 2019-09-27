@@ -18,7 +18,7 @@ class InitializerData(private val accountRepository: AccountRepository,
         val accounts = Flux.just("wonwoo,{noop}123", "user,{noop}456")
             .map { it.split(",") }
             .flatMap {
-                accountRepository.save(Account(it.component1(), it.component2()))
+                accountRepository.save(Account(it[0], it[1]))
             }
 
         val message: (Account) -> Flux<Message> = {

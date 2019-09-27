@@ -19,7 +19,7 @@ class InitializerData(private val accountRepository: AccountRepository,
             .map { it.split(",") }
             .map {
 
-                val save = Account(it.component1(), it.component2())
+                val save = Account(it[0], it[1])
 
                 accountRepository.save(save)
 
