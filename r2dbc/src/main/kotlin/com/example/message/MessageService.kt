@@ -1,6 +1,7 @@
 package com.example.message
 
 import com.example.account.AccountRepository
+import com.example.save
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
@@ -19,7 +20,7 @@ class MessageService(private val messageRepository: MessageRepository, private v
         }
 
     @Transactional
-    fun save(message: Message): Mono<Message> = messageRepository.save(message)
+    fun save(message: Message): Mono<Message> = messageRepository.save(Mono.just(message))
 
     @Transactional
     fun delete(id: String): Mono<Void> = messageRepository.deleteById(id)
