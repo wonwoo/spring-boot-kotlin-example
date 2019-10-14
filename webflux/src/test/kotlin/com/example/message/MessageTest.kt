@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import reactor.core.publisher.Mono
-import reactor.test.StepVerifier
+import reactor.kotlin.test.test
 
 /**
  * Created by wonwoo on 2016. 10. 27..
@@ -26,7 +26,7 @@ class MessageTest(@Autowired val accountRepository: AccountRepository,
             }
 
 
-        StepVerifier.create(message).assertNext {
+        message.test().assertNext {
 
             assertThat(it.message).isEqualTo("test message")
 
@@ -58,7 +58,7 @@ class MessageTest(@Autowired val accountRepository: AccountRepository,
 
             }
 
-        StepVerifier.create(messages).assertNext {
+        messages.test().assertNext {
 
             assertThat(it.message).isEqualTo("ok test kotlin")
 
@@ -81,7 +81,7 @@ class MessageTest(@Autowired val accountRepository: AccountRepository,
                 this.messageRepository.findById(it.id!!)
             }
 
-        StepVerifier.create(message).assertNext {
+        message.test().assertNext {
 
             assertThat(it.message).isEqualTo("test message")
 

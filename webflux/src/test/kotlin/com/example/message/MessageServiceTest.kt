@@ -11,9 +11,10 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.test.StepVerifier
+import reactor.kotlin.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toMono
+import reactor.kotlin.test.test
 
 /**
  * Created by wonwoo on 2016. 10. 27..
@@ -32,11 +33,11 @@ class MessageServiceTest(@Mock val messageRepository: MessageRepository) {
 
     @Test
     fun findAll() {
-        val messages = Flux.just(Message(message = "test message", account = account))
+        val messages = listOf(Message(message = "test message", account = account)).toFlux()
         given(messageRepository.findAll()).willReturn(messages)
         val findAllMessages = messageService.findAll()
 
-        StepVerifier.create(findAllMessages).assertNext {
+        findAllMessages.test().assertNext {
 
             assertThat(it.message).isEqualTo("test message")
 
@@ -47,9 +48,10 @@ class MessageServiceTest(@Mock val messageRepository: MessageRepository) {
     @Test
     fun save() {
         val message = Message(message = "test message", account = account)
-        given(messageRepository.save(message)).willReturn(Mono.just(message))
+        given(messageRepository.save(message)).willReturn(message.toMono())
         val saveMessage = messageService.save(message)
-        StepVerifier.create(saveMessage).assertNext {
+
+        saveMessage.test().assertNext {
 
             assertThat(it.message).isEqualTo("test message")
 
@@ -61,12 +63,11 @@ class MessageServiceTest(@Mock val messageRepository: MessageRepository) {
     @Test
     fun delete() {
 
-
         given(messageRepository.deleteById(anyString())).willReturn(Mono.empty())
 
         val delete = messageService.delete("test")
 
-        StepVerifier.create(delete).then {
+        delete.test().then {
 
             verify(messageRepository, atLeastOnce()).deleteById("test")
 

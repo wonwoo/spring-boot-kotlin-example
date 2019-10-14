@@ -86,7 +86,6 @@ internal class ExtensionsKtTests {
 
         assertThat(dateFormat).isEqualTo("2 months ago")
 
-
     }
 
     @Test

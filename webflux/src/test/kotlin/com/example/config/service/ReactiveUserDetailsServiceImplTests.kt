@@ -4,7 +4,6 @@ import com.example.account.Account
 import com.example.account.AccountRepository
 import com.example.account.UserNotFoundException
 import com.example.any
-
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,7 +13,7 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import reactor.core.publisher.Mono
-import reactor.test.StepVerifier
+import reactor.kotlin.test.test
 
 
 @ExtendWith(MockitoExtension::class)
@@ -36,11 +35,10 @@ internal class ReactiveUserDetailsServiceImplTests(@Mock private val accountRepo
 
         val userDetails = reactiveUserDetailsService.findByUsername("wonwoo")
 
-        StepVerifier.create(userDetails).assertNext {
+        userDetails.test().assertNext {
 
             assertThat(it.username).isEqualTo("wonwoo")
             assertThat(it.password).isEqualTo("123123")
-
 
         }.verifyComplete()
 
@@ -57,7 +55,7 @@ internal class ReactiveUserDetailsServiceImplTests(@Mock private val accountRepo
 
         val userDetails = reactiveUserDetailsService.findByUsername("wonwoo")
 
-        StepVerifier.create(userDetails)
+        userDetails.test()
             .expectErrorSatisfies {
                 assertThat(it).isInstanceOf(UserNotFoundException::class.java)
                 assertThat(it.message).isEqualTo("not found user name : wonwoo")

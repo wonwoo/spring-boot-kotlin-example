@@ -7,8 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import reactor.core.publisher.Flux
-import reactor.test.StepVerifier
+import reactor.kotlin.core.publisher.toFlux
+import reactor.kotlin.test.test
 
 /**
  * Created by wonwoo on 2016. 10. 27..
@@ -28,11 +28,11 @@ class AccountServiceTest(@Mock val accountRepository: AccountRepository) {
     @Test
     fun findAll() {
 
-        val accounts = Flux.just(Account("wonwoo", "123123"), Account("kevin", "pass"))
+        val accounts = listOf(Account("wonwoo", "123123"), Account("kevin", "pass")).toFlux()
         given(accountRepository.findAll()).willReturn(accounts)
         val findAccounts = accountService.findAll()
 
-        StepVerifier.create(findAccounts).assertNext {
+        findAccounts.test().assertNext {
 
             assertThat(it.name).isEqualTo("wonwoo")
             assertThat(it.passwd).isEqualTo("123123")
