@@ -43,7 +43,7 @@ class MessageController(private val messageService: MessageService) {
     }
 
     @PostMapping("/delete/{id}")
-    fun delete(@PathVariable id: String): Rendering {
+    fun delete(@PathVariable id: Long): Rendering {
 
         return Rendering.redirectTo("/message")
             .modelAttribute("message", messageService.delete(id))

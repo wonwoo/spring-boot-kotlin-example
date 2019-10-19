@@ -23,5 +23,5 @@ class MessageService(private val messageRepository: MessageRepository, private v
     fun save(message: Message): Mono<Message> = messageRepository.save(Mono.just(message))
 
     @Transactional
-    fun delete(id: String): Mono<Void> = messageRepository.deleteById(id)
+    fun delete(id: Long): Mono<Void> = messageRepository.deleteById(id)
 }
