@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.anyString
 import org.mockito.BDDMockito.given
-import org.mockito.Mockito
 import org.mockito.Mockito.atLeastOnce
 import org.mockito.Mockito.verify
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,8 +17,9 @@ import org.springframework.http.MediaType
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.csrf
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toMono
 
 @WebFluxTest(MessageController::class)
 @MockUser
@@ -32,7 +32,9 @@ internal class MessageControllerTests(@Autowired private val webTestClient: WebT
     @Test
     internal fun `message all test`() {
 
-        given(messageService.findAll()).willReturn(Flux.just(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))))
+        given(messageService.findAll()).willReturn(
+            listOf(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))).toFlux()
+        )
 
         webTestClient.get()
             .uri("/message")
@@ -54,8 +56,10 @@ internal class MessageControllerTests(@Autowired private val webTestClient: WebT
     internal fun `message save test`() {
 
         val message = Message(message = "test message", account = Account(id = "bar", name = "user", passwd = "password"))
-        given(messageService.findAll()).willReturn(Flux.just(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))))
-        given(messageService.save(message)).willReturn(Mono.just(message))
+        given(messageService.findAll()).willReturn(
+            listOf(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))).toFlux()
+        )
+        given(messageService.save(message)).willReturn(message.toMono())
 
 
         webTestClient.mutateWith(csrf())
@@ -84,7 +88,9 @@ internal class MessageControllerTests(@Autowired private val webTestClient: WebT
     internal fun `message delete test`() {
 
         given(messageService.delete(anyString())).willReturn(Mono.empty())
-        given(messageService.findAll()).willReturn(Flux.just(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))))
+        given(messageService.findAll()).willReturn(
+            listOf(Message(id = "foo", message = "test message", account = Account("wonwoo", "foo"))).toFlux()
+        )
 
         webTestClient.mutateWith(csrf())
             .post()

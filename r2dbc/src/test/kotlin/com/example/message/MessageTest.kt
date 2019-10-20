@@ -5,7 +5,6 @@ import com.example.account.AccountRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
 import reactor.core.publisher.Mono
 import reactor.kotlin.test.test
