@@ -9,7 +9,6 @@ import org.mockito.BDDMockito.anyString
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.atLeastOnce
 import org.mockito.Mockito.verify
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus
@@ -23,7 +22,7 @@ import reactor.kotlin.core.publisher.toMono
 
 @WebFluxTest(MessageController::class)
 @MockUser
-internal class MessageControllerTests(@Autowired private val webTestClient: WebTestClient) {
+internal class MessageControllerTests(private val webTestClient: WebTestClient) {
 
     @MockBean
     private lateinit var messageService: MessageService

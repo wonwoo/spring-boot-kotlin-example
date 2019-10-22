@@ -17,8 +17,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("just now")
-
-
     }
 
 
@@ -31,8 +29,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("20 seconds ago")
-
-
     }
 
 
@@ -45,8 +41,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("1 minutes ago")
-
-
     }
 
 
@@ -59,8 +53,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("1 hours ago")
-
-
     }
 
     @Test
@@ -72,8 +64,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("2 days ago")
-
-
     }
 
     @Test
@@ -85,8 +75,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("2 months ago")
-
-
     }
 
     @Test
@@ -98,8 +86,6 @@ internal class ExtensionsKtTests {
             .formatDateAgo(now)
 
         assertThat(dateFormat).isEqualTo("1 years ago")
-
-
     }
 
 }

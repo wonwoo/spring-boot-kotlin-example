@@ -3,7 +3,6 @@ package com.example.message
 import com.example.account.Account
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
@@ -11,8 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
  * Created by wonwoo on 2016. 10. 27..
  */
 @DataJpaTest
-class MessageTest(@Autowired val entityManager: TestEntityManager,
-                  @Autowired val messageRepository: MessageRepository) {
+class MessageTest(private val entityManager: TestEntityManager,
+                  private val messageRepository: MessageRepository) {
 
     @Test
     fun newMessageHas() {

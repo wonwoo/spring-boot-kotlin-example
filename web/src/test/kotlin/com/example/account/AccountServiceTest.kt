@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension
  */
 
 @ExtendWith(MockitoExtension::class)
-class AccountServiceTest(@Mock val accountRepository: AccountRepository) {
+class AccountServiceTest(@Mock private val accountRepository: AccountRepository) {
 
     private lateinit var accountService : AccountService
 

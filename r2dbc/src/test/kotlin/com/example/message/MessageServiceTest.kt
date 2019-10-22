@@ -21,8 +21,8 @@ import reactor.kotlin.test.test
  * Created by wonwoo on 2016. 10. 27..
  */
 @ExtendWith(MockitoExtension::class)
-class MessageServiceTest(@Mock val messageRepository: MessageRepository,
-                         @Mock val accountRepository: AccountRepository) {
+class MessageServiceTest(@Mock private val messageRepository: MessageRepository,
+                         @Mock private val accountRepository: AccountRepository) {
 
     private lateinit var messageService: MessageService
 

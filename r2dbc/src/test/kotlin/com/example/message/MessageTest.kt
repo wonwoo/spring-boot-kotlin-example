@@ -4,7 +4,6 @@ import com.example.account.Account
 import com.example.account.AccountRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
 import reactor.core.publisher.Mono
 import reactor.kotlin.test.test
@@ -13,8 +12,8 @@ import reactor.kotlin.test.test
  * Created by wonwoo on 2016. 10. 27..
  */
 @DataR2dbcTest
-class MessageTest(@Autowired val accountRepository: AccountRepository,
-                  @Autowired val messageRepository: MessageRepository) {
+class MessageTest(private val accountRepository: AccountRepository,
+                  private val messageRepository: MessageRepository) {
 
     @Test
     fun newMessageHas() {

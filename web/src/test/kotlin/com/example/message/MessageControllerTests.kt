@@ -9,7 +9,6 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.verify
 import org.mockito.Mockito
 import org.mockito.Mockito.atLeastOnce
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
@@ -22,7 +21,7 @@ inline fun <reified T> any(): T = Mockito.any()
 
 @WebMvcTest(MessageController::class)
 @MockUser
-internal class MessageControllerTests(@Autowired private val mockMvc: MockMvc) {
+internal class MessageControllerTests(private val mockMvc: MockMvc) {
 
     @MockBean
     private lateinit var messageService: MessageService

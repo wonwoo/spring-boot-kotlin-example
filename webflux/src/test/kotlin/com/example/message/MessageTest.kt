@@ -13,8 +13,8 @@ import reactor.kotlin.test.test
  * Created by wonwoo on 2016. 10. 27..
  */
 @DataMongoTest
-class MessageTest(@Autowired val accountRepository: AccountRepository,
-                  @Autowired val messageRepository: MessageRepository) {
+class MessageTest(private val accountRepository: AccountRepository,
+                  private val messageRepository: MessageRepository) {
 
     @Test
     fun newMessageHas() {
