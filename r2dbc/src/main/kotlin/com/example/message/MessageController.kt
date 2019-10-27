@@ -24,7 +24,7 @@ class MessageController(private val messageService: MessageService) {
     fun account(@AuthenticationPrincipal account: Account) = account
 
     @GetMapping
-    fun findAll() = Rendering.view("message")
+    fun findAll() = Rendering.view("message").build()
 
     @PostMapping
     fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult, account: Account): Rendering {
