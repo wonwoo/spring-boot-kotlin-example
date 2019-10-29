@@ -1,7 +1,7 @@
 CREATE TABLE ACCOUNT (
   id         INTEGER IDENTITY PRIMARY KEY,
-  name VARCHAR(30),
-  passwd  VARCHAR(256)
+  username VARCHAR(30),
+  password  VARCHAR(256)
 );
 
 CREATE TABLE MESSAGE (

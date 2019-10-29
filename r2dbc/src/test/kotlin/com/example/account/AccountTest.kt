@@ -20,8 +20,8 @@ class AccountTest(private val accountRepository: AccountRepository) {
 
         saved.test().assertNext {
 
-            assertThat(it.name).isEqualTo("wonwoo")
-            assertThat(it.passwd).isEqualTo("pass123")
+            assertThat(it.username).isEqualTo("wonwoo")
+            assertThat(it.password).isEqualTo("pass123")
 
         }.verifyComplete()
 

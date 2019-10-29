@@ -11,15 +11,15 @@ class AccountRepositoryTests(private val accountRepository: AccountRepository)  
     @Test
     fun `find by name test`() {
 
-        val account = accountRepository.save(Account(name = "fidel", passwd = "foo!@#"))
+        val account = accountRepository.save(Account(username = "fidel", password = "foo!@#"))
             .flatMap {
                 accountRepository.findByname("fidel")
             }
 
         account.test().assertNext {
 
-            assertThat(it.name).isEqualTo("fidel")
-            assertThat(it.passwd).isEqualTo("foo!@#")
+            assertThat(it.username).isEqualTo("fidel")
+            assertThat(it.password).isEqualTo("foo!@#")
 
         }.verifyComplete()
 

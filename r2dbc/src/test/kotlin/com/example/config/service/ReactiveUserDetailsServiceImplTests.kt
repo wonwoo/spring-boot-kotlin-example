@@ -30,7 +30,7 @@ internal class ReactiveUserDetailsServiceImplTests(@Mock private val accountRepo
     @Test
     fun `find by username test`() {
         given(accountRepository.findByname(any()))
-            .willReturn(Mono.just(Account(name = "wonwoo", passwd = "123123")))
+            .willReturn(Mono.just(Account(username = "wonwoo", password = "123123")))
 
 
         val userDetails = reactiveUserDetailsService.findByUsername("wonwoo")
@@ -41,7 +41,6 @@ internal class ReactiveUserDetailsServiceImplTests(@Mock private val accountRepo
             assertThat(it.password).isEqualTo("123123")
 
         }.verifyComplete()
-
 
     }
 

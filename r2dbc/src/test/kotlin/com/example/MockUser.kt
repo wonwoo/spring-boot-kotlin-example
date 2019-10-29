@@ -39,7 +39,7 @@ annotation class MockUser(
                 }
 
             val authentication = UsernamePasswordAuthenticationToken(
-                Account(id = customUser.id, name = customUser.username, passwd = customUser.password), "N/A", grantedAuthorities)
+                Account(id = customUser.id, username = customUser.username, password = customUser.password), "N/A", grantedAuthorities)
 
             return SecurityContextHolder.createEmptyContext().apply {
 

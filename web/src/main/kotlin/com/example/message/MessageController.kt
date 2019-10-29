@@ -1,6 +1,8 @@
 package com.example.message
 
 import com.example.account.Account
+import com.example.config.service.UserDetailsServiceImpl
+import com.example.config.service.UserDetailsServiceImpl.CustomUserDetails
 import com.example.formatDateAgo
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
@@ -15,14 +17,15 @@ class MessageController(private val messageService: MessageService) {
     @ModelAttribute("messages")
     fun messages() = messageService.findAll().map { it.toDto() }
 
-    @ModelAttribute
-    fun account(@AuthenticationPrincipal account: Account) = account
+    @ModelAttribute("account")
+    fun account(@AuthenticationPrincipal account: CustomUserDetails) = account
 
     @GetMapping
     fun findAll() = "message"
 
     @PostMapping
-    fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult, account: Account): String {
+    fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult,
+             @ModelAttribute("account") account: CustomUserDetails): String {
 
         if (bindingResult.hasErrors()) {
 
@@ -46,7 +49,7 @@ class MessageController(private val messageService: MessageService) {
     }
 }
 
-fun MessageForm.toMessage(account: Account) = Message(this.message, account)
+fun MessageForm.toMessage(account: CustomUserDetails) = Message(this.message, account.account)
 
 fun Message.toDto() = MessageDto(this.message, this.account, this.regDate.formatDateAgo(), id)
 
