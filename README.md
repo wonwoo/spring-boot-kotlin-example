@@ -40,12 +40,12 @@ or
 ```
 
 ## use 
-1. kotlin 1.3.41
-2. Spring Boot 2.1.6 
-3. JPA(hibernate) 5.3.10
+1. kotlin 1.3.50
+2. Spring Boot 2.2.x 
+3. JPA(hibernate) 5.4.8
 4. h2
 5. thymeleaf 3.0.11
-6. Spring Security 5.1.5
+6. Spring Security 5.2.1
 
 
 ## spring boot koilin sample code
