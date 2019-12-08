@@ -1,6 +1,7 @@
 package com.example
 
 import com.example.account.Account
+import com.example.config.service.ReactiveUserDetailsServiceImpl.CustomUserDetails
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -39,7 +40,7 @@ annotation class MockUser(
                 }
 
             val authentication = UsernamePasswordAuthenticationToken(
-                Account(id = customUser.id, username = customUser.username, password = customUser.password), "N/A", grantedAuthorities)
+                CustomUserDetails(Account(id = customUser.id, username = customUser.username, password = customUser.password)), "N/A", grantedAuthorities)
 
             return SecurityContextHolder.createEmptyContext().apply {
 
