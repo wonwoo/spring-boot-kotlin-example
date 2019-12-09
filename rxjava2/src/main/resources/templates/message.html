@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Message</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/form-elements.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container">
+    <h1 th:text="'login username : ' + ${account.name}"></h1>
+
+    <form role="form"  th:action="@{/message}" method="post">
+        <div class="form-group">
+            <label for="formGroupExampleInput">Message</label>
+            <input type="text" name="message" class="form-control" id="formGroupExampleInput" placeholder="message input">
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    <h2>Message</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Message</th>
+            <th style="text-align: center;">User</th>
+            <th style="text-align: center;">Date</th>
+            <th style="text-align: center;">#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="message : ${messages}">
+            <th th:text="${message.message}"></th>
+            <td th:text="${message.account.name}">Mark</td>
+            <td th:text="${message.regDate}"></td>
+            <td><a class="btn btn-default glyphicon" th:attr="onclick=|delete_message('${message.id}')|">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form role="form" th:name="delete-form" th:id="delete-form" th:action="@{/}" th:method="post">
+    </form>
+
+    <script>
+
+        function delete_message(id) {
+          var form = document.getElementById("delete-form");
+          form.action = "/message/delete/" + id;
+          form.method = "post";
+          form.submit();
+        }
+
+    </script>
+</div>
+</body>
+</html>
