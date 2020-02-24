@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
 import reactor.kotlin.core.publisher.toMono
 
 @Service
@@ -16,7 +17,7 @@ class ReactiveUserDetailsServiceImpl(private val accountRepository: AccountRepos
     override fun findByUsername(username: String): Mono<UserDetails> {
 
         return accountRepository.findByname(username)
-            .switchIfEmpty(UserNotFoundException("not found user name : $username").toMono())
+            .switchIfEmpty { UserNotFoundException("not found user name : $username").toMono() }
             .map { CustomUserDetails(it) }
 
     }

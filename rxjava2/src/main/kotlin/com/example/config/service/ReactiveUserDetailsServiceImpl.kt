@@ -1,5 +1,6 @@
 package com.example.config.service
 
+import com.example.account.Account
 import com.example.account.AccountRepository
 import com.example.account.UserNotFoundException
 import io.reactivex.Maybe
@@ -16,12 +17,12 @@ import reactor.core.publisher.Operators.MonoSubscriber
 @Service
 class ReactiveUserDetailsServiceImpl(private val accountRepository: AccountRepository) : ReactiveUserDetailsService {
 
-
     override fun findByUsername(username: String): Mono<UserDetails> {
 
-        return Mono.from(
-            accountRepository.findByname(username)
-                .switchIfEmpty(Maybe.error(UserNotFoundException("not found user name : $username"))).toMono()
+        return Mono.from(accountRepository.findByname(username)
+            .switchIfEmpty(Maybe.defer<Account> {
+                Maybe.error(UserNotFoundException("not found user name : $username"))
+            }).toMono()
         )
     }
 }
