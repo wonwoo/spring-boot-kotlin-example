@@ -1,6 +1,7 @@
 package com.example.message
 
 import com.example.account.Account
+import com.example.config.service.ReactiveUserDetailsServiceImpl.CustomUserDetails
 import com.example.formatDateAgo
 import kotlinx.coroutines.flow.map
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -21,14 +22,15 @@ class MessageController(private val messageService: MessageService) {
     @ModelAttribute("messages")
     fun messages() = messageService.findAll().map { it.toDto() }
 
-    @ModelAttribute
-    fun account(@AuthenticationPrincipal account: Account) = account
+    @ModelAttribute("account")
+    fun account(@AuthenticationPrincipal account: CustomUserDetails) = account
 
     @GetMapping
     fun findAll() = Rendering.view("message").build()
 
     @PostMapping
-    suspend fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult, account: Account): Rendering {
+    suspend fun save(@Valid @ModelAttribute messageForm: MessageForm, bindingResult: BindingResult,
+                     @ModelAttribute("account") account: CustomUserDetails): Rendering {
 
         if (bindingResult.hasErrors()) {
 
@@ -53,7 +55,7 @@ class MessageController(private val messageService: MessageService) {
     }
 }
 
-fun MessageForm.toMessage(account: Account) = Message(this.message, account)
+fun MessageForm.toMessage(account: CustomUserDetails) = Message(this.message, account.account)
 
 fun Message.toDto() = MessageDto(this.message, this.account, this.regDate.formatDateAgo(), id)
 
