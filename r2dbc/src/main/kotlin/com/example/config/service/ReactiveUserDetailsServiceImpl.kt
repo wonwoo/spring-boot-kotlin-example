@@ -18,7 +18,7 @@ class ReactiveUserDetailsServiceImpl(private val accountRepository: AccountRepos
 
         return accountRepository.findByname(username)
             .switchIfEmpty { UserNotFoundException("not found user name : $username").toMono() }
-            .map { CustomUserDetails(it) }
+            .map(::CustomUserDetails)
 
     }
 

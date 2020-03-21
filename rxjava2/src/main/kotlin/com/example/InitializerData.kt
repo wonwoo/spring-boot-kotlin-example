@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 class InitializerData(private val accountRepository: AccountRepository,
                       private val messageRepository: MessageRepository) : ApplicationRunner {
 
-    override fun run(args: ApplicationArguments?) {
+    override fun run(args: ApplicationArguments) {
 
 
         val accounts = listOf("wonwoo,{noop}123", "user,{noop}456")
@@ -35,7 +35,7 @@ class InitializerData(private val accountRepository: AccountRepository,
         accountRepository.deleteAll()
             .andThen(messageRepository.deleteAll())
             .andThen(accounts)
-            .flatMap { message(it) }.subscribe()
+            .flatMap(message).subscribe()
 
     }
 

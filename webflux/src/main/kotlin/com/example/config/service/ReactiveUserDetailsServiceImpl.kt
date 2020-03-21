@@ -18,9 +18,7 @@ class ReactiveUserDetailsServiceImpl(private val accountRepository: AccountRepos
     override fun findByUsername(username: String): Mono<UserDetails> {
 
         return accountRepository.findByname(username)
-            .map {
-                CustomUserDetails(it)
-            }
+            .map(::CustomUserDetails)
             .switchIfEmpty { UserNotFoundException("not found user name : $username").toMono() }
             .ofType()
 

@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux
 class InitializerData(private val accountRepository: AccountRepository,
                       private val messageRepository: MessageRepository) : ApplicationRunner {
 
-    override fun run(args: ApplicationArguments?) {
+    override fun run(args: ApplicationArguments) {
 
         val accounts = Flux.just("wonwoo,{noop}123", "user,{noop}456")
             .map { it.split(",") }
@@ -32,8 +32,6 @@ class InitializerData(private val accountRepository: AccountRepository,
         accountRepository.deleteAll()
             .thenMany(messageRepository.deleteAll())
             .thenMany(accounts)
-            .flatMap { message(it) }.subscribe()
-
+            .flatMap(message).subscribe()
     }
-
 }

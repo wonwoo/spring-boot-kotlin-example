@@ -21,7 +21,7 @@ class ReactiveUserDetailsServiceImpl(private val accountRepository: AccountRepos
     override fun findByUsername(username: String): Mono<UserDetails> {
 
         return Mono.from(accountRepository.findByname(username)
-            .map { CustomUserDetails(it) }
+            .map (::CustomUserDetails)
             .switchIfEmpty(Maybe.defer<CustomUserDetails> {
                 Maybe.error(UserNotFoundException("not found user name : $username"))
             }).toMono()
@@ -63,7 +63,7 @@ fun <T> Maybe<T>.toMono(): Mono<T> {
     return MaybeToMono(this)
 }
 
-internal class MaybeToMono<T>(private val source: Maybe<T>) : Mono<T>() {
+private class MaybeToMono<T>(private val source: Maybe<T>) : Mono<T>() {
 
     override fun subscribe(s: CoreSubscriber<in T>) {
         source.subscribe(MaybeToMonoObserver(s))

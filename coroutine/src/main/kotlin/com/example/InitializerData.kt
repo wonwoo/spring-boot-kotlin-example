@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 class InitializerData(private val accountRepository: AccountRepository,
                       private val messageRepository: MessageRepository) : ApplicationRunner {
 
-    override fun run(args: ApplicationArguments?) {
+    override fun run(args: ApplicationArguments) {
 
         runBlocking {
 
