@@ -15,11 +15,11 @@ class MessageTest(private val accountRepository: AccountRepository,
     @Test
     fun newMessageHas() {
         val message = this.accountRepository.save(
-            Account("wonwoo", "passwd"))
-            .map { Message("test message", it) }
-            .flatMap {
-                this.messageRepository.save(it)
-            }
+                Account("wonwoo", "passwd"))
+                .map { Message("test message", it) }
+                .flatMap {
+                    this.messageRepository.save(it)
+                }
 
 
         message.test().awaitDone(5, TimeUnit.SECONDS).assertValueCount(1).assertValue {
@@ -33,22 +33,26 @@ class MessageTest(private val accountRepository: AccountRepository,
     @Test
     fun findAllMessages() {
 
-        val saveMessage: (Account) -> Single<Message> = {
-            messageRepository.deleteAll().andThen(this.messageRepository.save(Message("test message", it)).ambWith(this.messageRepository.save(Message("ok test kotlin", it))))
+        val saveMessage: (Account) -> Single<Message> = { account ->
+            val save = this.messageRepository.save(Message("test message", account))
+                    .flatMap {
+                        this.messageRepository.save(Message("ok test kotlin", account))
+                    }
+            messageRepository.deleteAll().andThen(save)
         }
 
         val messages = this.accountRepository.save(
-            Account("wonwoo", "passwd"))
+                Account("wonwoo", "passwd"))
 
-            .flatMap {
+                .flatMap {
 
-                saveMessage(it)
+                    saveMessage(it)
 
-            }.flatMapPublisher {
+                }.flatMapPublisher {
 
-                this.messageRepository.findAll()
+                    this.messageRepository.findAll()
 
-            }
+                }
 
         messages.test().awaitDone(5, TimeUnit.SECONDS).assertValueAt(0) {
 
@@ -65,12 +69,12 @@ class MessageTest(private val accountRepository: AccountRepository,
     @Test
     fun findByMessage() {
         val message = this.accountRepository.save(
-            Account("wonwoo", "passwd"))
-            .flatMap {
-                this.messageRepository.save(Message("test message", it))
-            }.flatMapMaybe {
-                this.messageRepository.findById(it.id!!)
-            }
+                Account("wonwoo", "passwd"))
+                .flatMap {
+                    this.messageRepository.save(Message("test message", it))
+                }.flatMapMaybe {
+                    this.messageRepository.findById(it.id!!)
+                }
 
         message.test().awaitDone(5, TimeUnit.SECONDS).assertValueCount(1).assertValue {
             it.message == "test message"
