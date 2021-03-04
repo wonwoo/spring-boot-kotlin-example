@@ -1,29 +1,24 @@
 package com.example.config
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.boot.autoconfigure.security.reactive.PathRequest
+import org.springframework.context.annotation.Bean
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.config.web.server.invoke
+import org.springframework.security.web.server.SecurityWebFilterChain
 
-@EnableWebSecurity
-class WebSecurityConfiguration(private val userDetailsService: UserDetailsService) : WebSecurityConfigurerAdapter() {
+@EnableWebFluxSecurity
+class WebSecurityConfiguration {
 
-    override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService(userDetailsService)
-    }
-
-    override fun configure(http: HttpSecurity) {
-        http
-            .authorizeRequests()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .and()
-            .logout()
-            .permitAll()
+    @Bean
+    fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain = http {
+        authorizeExchange {
+            authorize(PathRequest.toStaticResources().atCommonLocations(), permitAll)
+            authorize(anyExchange, authenticated)
+        }
+        httpBasic {
+        }
+        formLogin {
+        }
     }
 }
