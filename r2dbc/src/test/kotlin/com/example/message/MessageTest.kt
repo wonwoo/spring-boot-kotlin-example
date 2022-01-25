@@ -1,12 +1,10 @@
 package com.example.message
 
-import com.example.InitializerSchema
 import com.example.account.Account
 import com.example.account.AccountRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
-import org.springframework.context.annotation.Import
 import reactor.core.publisher.Mono
 import reactor.kotlin.test.test
 
@@ -14,18 +12,17 @@ import reactor.kotlin.test.test
  * Created by wonwoo on 2016. 10. 27..
  */
 @DataR2dbcTest
-@Import(InitializerSchema::class)
 class MessageTest(private val accountRepository: AccountRepository,
                   private val messageRepository: MessageRepository) {
 
     @Test
     fun newMessageHas() {
         val message = this.accountRepository.save(
-            Account("wonwoo", "passwd"))
-            .map { Message("test message", it.id!!) }
-            .flatMap {
-                this.messageRepository.save(it)
-            }
+                Account("wonwoo", "passwd"))
+                .map { Message("test message", it.id!!) }
+                .flatMap {
+                    this.messageRepository.save(it)
+                }
 
 
         message.test().assertNext {
@@ -42,23 +39,23 @@ class MessageTest(private val accountRepository: AccountRepository,
         val saveMessage: (Account) -> Mono<Message> = {
 
             messageRepository.deleteAll().then(
-                this.messageRepository.save(Message("ok test kotlin", it.id!!))
-                    .then(this.messageRepository.save(Message("test message", it.id!!))))
+                    this.messageRepository.save(Message("ok test kotlin", it.id!!))
+                            .then(this.messageRepository.save(Message("test message", it.id!!))))
 
         }
 
         val messages = this.accountRepository.save(
-            Account("wonwoo", "passwd"))
+                Account("wonwoo", "passwd"))
 
-            .flatMap {
+                .flatMap {
 
-                saveMessage(it)
+                    saveMessage(it)
 
-            }.flatMapMany {
+                }.flatMapMany {
 
-                this.messageRepository.findAll()
+                    this.messageRepository.findAll()
 
-            }
+                }
 
         messages.test().assertNext {
 
@@ -69,19 +66,19 @@ class MessageTest(private val accountRepository: AccountRepository,
             assertThat(it.message).isEqualTo("test message")
 
         }
-            .verifyComplete()
+                .verifyComplete()
 
     }
 
     @Test
     fun findByMessage() {
         val message = this.accountRepository.save(
-            Account("wonwoo", "passwd"))
-            .flatMap {
-                this.messageRepository.save(Message("test message", it.id!!))
-            }.flatMap {
-                this.messageRepository.findById(it.id!!)
-            }
+                Account("wonwoo", "passwd"))
+                .flatMap {
+                    this.messageRepository.save(Message("test message", it.id!!))
+                }.flatMap {
+                    this.messageRepository.findById(it.id!!)
+                }
 
         message.test().assertNext {
 
